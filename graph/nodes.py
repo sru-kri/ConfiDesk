@@ -98,14 +98,17 @@ def send_email_node(state: AgentState) -> dict:
 
     draft_id = send_email_draft(
         customer_email=state.get("sender", ""),
-        draft_reply=state.get("draft_reply", ""),
+        draft_reply=state.get("draft_reply") or "",
         subject=state.get("subject", ""),
     )
 
     if not draft_id:
-        print("[Gmail] Draft creation failed.")
+        print("[Gmail] Draft creation failed. Keeping reply for manual review.")
 
-        return {"status": "escalated"}
+        return {
+            "status": "pending_review",
+            "draft_id": "",
+        }
 
     print(f"[Gmail] Draft created successfully: {draft_id}")
 
