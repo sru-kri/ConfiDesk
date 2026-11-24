@@ -1,5 +1,7 @@
 
 import os
+from typing import Any
+
 import requests
 
 from dotenv import load_dotenv
@@ -39,7 +41,7 @@ def send_low_confidence_alert(
         )
         return False
 
-    payload = {
+    payload: dict[str, Any] = {
         "customer_email": customer_email,
         "confidence_score": confidence_score,
         "draft_reply": draft_reply,
